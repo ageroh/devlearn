@@ -1,0 +1,17 @@
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\bin\Debug\SqlClr.dll
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\bin\Debug\SqlClr.pdb
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\bin\Debug\RabbitMQ.Client.dll
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\bin\Debug\RabbitMQ.Client.xml
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\obj\Debug\SqlClr.csproj.CoreCompileInputs.cache
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\obj\Debug\SqlClr.csproj.CopyComplete
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\obj\Debug\SqlClr.dll
+C:\Users\dtsantakos\Documents\Visual Studio 2017\Projects\RabbitWS\RabbitMQSqlClr4\obj\Debug\SqlClr.pdb
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\bin\Debug\SqlClr.dll
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\bin\Debug\SqlClr.pdb
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\bin\Debug\RabbitMQ.Client.dll
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\bin\Debug\RabbitMQ.Client.xml
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\obj\Debug\SqlClr.csprojResolveAssemblyReference.cache
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\obj\Debug\SqlClr.csproj.CoreCompileInputs.cache
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\obj\Debug\SqlClr.csproj.CopyComplete
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\obj\Debug\SqlClr.dll
+C:\Users\dtsantakos\Documents\visual studio 2017\Projects\RabbitWS\SqlClr\obj\Debug\SqlClr.pdb
