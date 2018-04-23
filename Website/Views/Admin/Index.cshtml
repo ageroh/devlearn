@@ -1,0 +1,15 @@
+﻿@model Score
+@{
+    ViewData["Title"] = "Admin Page";
+}
+<div class="container">
+    <div class="row">
+        <h1>Add Score</h1>
+        @Html.Partial("Admin/AddScore", new Score())
+    </div>
+    <div class="row">
+        <h1>Add Event</h1>
+        @Html.Partial("Admin/AddEvent")
+    </div>
+</div>
+

@@ -163,3 +163,12 @@ USE [master]
 GO
 ALTER DATABASE [DevLearn] SET  READ_WRITE 
 GO
+
+
+
+-- ENABLE CLR
+sp_configure @configname=clr_enabled, @configvalue=1
+GO
+
+RECONFIGURE
+Go

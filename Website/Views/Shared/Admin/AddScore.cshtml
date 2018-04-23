@@ -1,0 +1,17 @@
+﻿@model Score
+<form asp-controller="Admin" asp-action="AddScore" method="post">
+    <div class="form-group">
+        Event:
+        <select asp-for="EventId" asp-items="@Model.Events" class="form-group">
+            <option>- Please Select -</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="number" class="form-group" asp-for="Home" />
+        <span>-</span>
+        <input type="number" class="form-group" asp-for="Away" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Add Score</button>
+    </div>
+</form>

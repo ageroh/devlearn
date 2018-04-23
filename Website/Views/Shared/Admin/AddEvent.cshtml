@@ -1,0 +1,9 @@
+﻿@model Event
+<form asp-controller="Admin" asp-action="AddEvent" method="post">
+    <div class="form-group">
+        <input type="text" asp-for="HomeTeam" class="form-group" /> VS <input type="text" asp-for="AwayTeam" class="form-group" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Add Event</button>
+    </div>
+</form>
