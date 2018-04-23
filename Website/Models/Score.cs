@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Website.Models
 {
     public class Score
     {
+        [NotMapped]
         public List<SelectListItem> Events { get; set; }
+
+        [Key]
         public int EventId { get; set; }
+
         public int Home { get; set; }
         public int Away { get; set; }
 

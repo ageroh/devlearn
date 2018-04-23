@@ -142,6 +142,19 @@ GO
 
 
 
+CREATE TABLE [dbo].[Event] (
+    EventId        INT            IDENTITY (1, 1) NOT NULL,
+    HomeTeam     NVARCHAR (100) NOT NULL,
+    AwayTeam     NVARCHAR (100) NOT NULL,
+    [Timestamp] DATETIME       NOT NULL DEFAULT(GETDATE())
+);
+GO
+
+ALTER TABLE Event
+ADD CONSTRAINT PK_Event PRIMARY KEY (EventId)
+GO
+
+
 -- =============================================
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
