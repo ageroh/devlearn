@@ -19,7 +19,7 @@ namespace StateServer
     {
         private static readonly List<IWebSocketConnection> Sockets = new List<IWebSocketConnection>();
         private static readonly WebSocketServer Server = new WebSocketServer("ws://127.0.0.1:8181/socket");
-        private static ConcurrentDictionary<string, Score> _state = new ConcurrentDictionary<string, Score>();
+        private static ConcurrentDictionary<int, Score> _state = new ConcurrentDictionary<int, Score>();
 
         public static void Main(string[] args)
         {
@@ -35,11 +35,11 @@ namespace StateServer
                 var scores = con.Query<Score>(@"SELECT *
                 FROM (
                     SELECT *,
-                    ROW_NUMBER() OVER(PARTITION BY [Event] ORDER BY Id DESC) AS RowNum
+                    ROW_NUMBER() OVER(PARTITION BY [EventId] ORDER BY Id DESC) AS RowNum
                     FROM [Scores]
                 ) t
                 WHERE t.RowNum = 1", commandType: CommandType.Text);
-                _state = new ConcurrentDictionary<string, Score>(scores.ToDictionary(s => s.Event)); 
+                _state = new ConcurrentDictionary<int, Score>(scores.ToDictionary(s => s.EventId)); 
             }
 
             Server.Start(socket =>
@@ -74,7 +74,7 @@ namespace StateServer
                         Sockets.ForEach(socket => socket.Send(message));
                         
                         var scores = JsonConvert.DeserializeObject<List<Score>>(message);
-                        scores.ForEach(score => _state[score.Event] = score);
+                        scores.ForEach(score => _state[score.EventId] = score);
                     };
                     channel.BasicConsume("hello", true, consumer);
                     Console.WriteLine(" Press [enter] to exit.");
