@@ -29,14 +29,16 @@ namespace StateServer
 
             var configuration = builder.Build();
             var connectionString =  configuration.GetConnectionString("DefaultConnection");
-
+            
             using (var con = new SqlConnection(connectionString))
             {
                 var scores = con.Query<Score>(@"SELECT *
                 FROM (
-                    SELECT *,
-                    ROW_NUMBER() OVER(PARTITION BY [EventId] ORDER BY Id DESC) AS RowNum
+                    SELECT [Scores].*, [Event].HomeTeam, [Event].AwayTeam, 
+                    ROW_NUMBER() OVER(PARTITION BY [Scores].[EventId] ORDER BY Id DESC) AS RowNum
                     FROM [Scores]
+					INNER JOIN [Event]
+					ON Scores.EventId = [Event].EventId
                 ) t
                 WHERE t.RowNum = 1", commandType: CommandType.Text);
                 _state = new ConcurrentDictionary<int, Score>(scores.ToDictionary(s => s.EventId)); 
@@ -59,7 +61,7 @@ namespace StateServer
             });
 
 
-            var factory = new ConnectionFactory { HostName = "localhost" };
+            var factory = new ConnectionFactory { HostName = "localhost", Port = 32782, UserName = "admin", Password = "admin" };
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())

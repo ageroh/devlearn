@@ -40,7 +40,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - Website</p>
+            <p>&copy; 2018 - Stoiximan.gr</p>
         </footer>
     </div>
 
@@ -86,13 +86,16 @@
                 var template = $("#js-row-template").html();
                 for (var i = 0; i < data.length; i++) {
                     var score = data[i];
-                    var event = score.Event;
+                    var homeTeam = score.HomeTeam;
+                    var awayTeam = score.AwayTeam
+                    var event = homeTeam + "-" + awayTeam;
+                    var eventId = score.EventId;
                     var home = score.Home;
                     var away = score.Away;
-                    var eventrow = $("#js-" + event);
+                    var eventrow = $("#js-event-" + eventId);
                     if (eventrow.length === 0) {
                         eventrow = $(template);
-                        eventrow.attr("id", "js-" + event);
+                        eventrow.attr("id", "js-event-" + eventId);
                         $("#js-holder").append(eventrow);
                     }
                     eventrow.find(".js-event").html(event);
