@@ -1,20 +1,12 @@
-﻿var mode = $("#js-holder").data("mode");
-
-if (mode === "poll") {
-    initiatePolling();
-} else {
-    initiateWebSocketConnection();
-}
-
-
-function initiatePolling() {
+﻿(function () {
+    var container = $("#js-poll-holder");
     var interval = 2000;
     var lastKnownScoreId = 0;
-    var poll = function() {
+    var poll = function () {
         $.get("/scores?lastKnownScoreId=" + lastKnownScoreId,
-            function(result) {
+            function (result) {
                 if (result && result.length > 0) {
-                    render(result);
+                    render(container, result);
                     console.log(result);
                     lastKnownScoreId = result[0].id;
                 }
@@ -22,9 +14,10 @@ function initiatePolling() {
             });
     }
     poll();
-}
+})();
 
-function initiateWebSocketConnection() {
+(function () {
+    var container = $("#js-push-holder");
     var ws = new WebSocket("ws://localhost:8181/scores");
     ws.onopen = function () {
         console.log("Connection opened");
@@ -33,11 +26,11 @@ function initiateWebSocketConnection() {
         console.log("Connection closed");
     }
     ws.onmessage = function (e) {
-        render(JSON.parse(e.data));
+        render(container, JSON.parse(e.data));
     }
-}
+})();
 
-function render(data) {
+function render(container, data) {
     var template = $("#js-row-template").html();
     for (var i = 0; i < data.length; i++) {
         var score = data[i];
@@ -45,11 +38,11 @@ function render(data) {
         var eventId = score.eventid;
         var home = score.home;
         var away = score.away;
-        var eventrow = $("#js-event-" + eventId);
+        var eventrow = $(".js-event-" + eventId);
         if (eventrow.length === 0) {
             eventrow = $(template);
             eventrow.attr("id", "js-event-" + eventId);
-            $("#js-holder").append(eventrow);
+            container.append(eventrow);
         }
         eventrow.find(".js-event").html(event);
         eventrow.find(".js-home").html(home);

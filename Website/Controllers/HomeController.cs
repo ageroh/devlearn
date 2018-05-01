@@ -9,14 +9,6 @@ namespace Website.Controllers
             return View();
         }
 
-        public IActionResult Poll()
-        {
-            return View();
-        }
-
-        public IActionResult Push()
-        {
-            return View();
-        }
+      
     }
 }
