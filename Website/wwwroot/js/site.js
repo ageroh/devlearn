@@ -1,13 +1,12 @@
 ﻿(function () {
     var container = $("#js-poll-holder");
-    var interval = 2000;
+    var interval = 5000;
     var lastKnownScoreId = 0;
     var poll = function () {
         $.get("/scores?lastKnownScoreId=" + lastKnownScoreId,
             function (result) {
                 if (result && result.length > 0) {
                     render(container, result);
-                    console.log(result);
                     lastKnownScoreId = result[0].id;
                 }
                 setTimeout(poll, interval);
@@ -38,10 +37,10 @@ function render(container, data) {
         var eventId = score.eventid;
         var home = score.home;
         var away = score.away;
-        var eventrow = $(".js-event-" + eventId);
+        var eventrow = container.find(".js-event-" + eventId);
         if (eventrow.length === 0) {
             eventrow = $(template);
-            eventrow.attr("id", "js-event-" + eventId);
+            eventrow.attr("class", "js-event-" + eventId);
             container.append(eventrow);
         }
         eventrow.find(".js-event").html(event);

@@ -23,7 +23,7 @@ namespace Website.Controllers
                 .Where(s => s.Id > lastKnownScoreId)
                 .GroupBy(s => s.EventId)
                 .Select(se => se.OrderByDescending(s => s.Id).FirstOrDefault())
-                .OrderByDescending(s => s.Id)
+                .OrderBy(s => s.EventId)
                 .ToListAsync();
 
             return Json(scores);

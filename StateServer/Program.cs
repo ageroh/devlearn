@@ -37,7 +37,7 @@ namespace StateServer
                     .Include(s => s.Event)
                     .GroupBy(s => s.EventId)
                     .Select(se => se.OrderByDescending(s => s.Id).FirstOrDefault())
-                    .OrderByDescending(s => s.Id)
+                    .OrderBy(s => s.EventId)
                     .ToList();
                 _state = new ConcurrentDictionary<int, Score>(scores.ToDictionary(s => s.EventId));
             }
