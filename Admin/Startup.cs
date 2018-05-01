@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Admin.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Admin.Models;
+using Domain;
 using Microsoft.Extensions.Logging;
 
 namespace Admin
@@ -27,8 +27,8 @@ namespace Admin
         {
             services.AddMvc();
 
-            services.AddDbContext<AdminContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("AdminContext")));
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +46,7 @@ namespace Admin
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<AdminContext>();
+                var context = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
                 context.Database.EnsureCreated();
             }
 

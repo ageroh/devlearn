@@ -1,18 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Website.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Website.Controllers
 {
     public class ScoresController : Controller
     {
-        public IActionResult Index(int lastKnownScoreId = 0)
+        private readonly DatabaseContext _context;
+
+        public ScoresController(DatabaseContext context)
         {
-            return null;
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index(int lastKnownScoreId = 0)
+        {
+            var scores = await _context.Score
+                .Include(s => s.Event)
+                .Where(s => s.Id > lastKnownScoreId)
+                .GroupBy(s => s.EventId)
+                .Select(se => se.OrderByDescending(s => s.Id).FirstOrDefault())
+                .ToListAsync();
+
+            return Json(scores);
         }
 
     }

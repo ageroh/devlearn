@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Domain
 {
@@ -20,6 +21,7 @@ namespace Domain
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DateCreated { get; set; }
 
+        [JsonIgnore]
         public ICollection<Score> Scores { get; set; }
     }
 

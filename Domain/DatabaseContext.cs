@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Data.SqlClient;
-using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Admin.Data
+namespace Domain
 {
-    public class AdminContext : DbContext
+    public class DatabaseContext : DbContext
     {
-        public AdminContext (DbContextOptions<AdminContext> options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
-            var databaseCreator =  (RelationalDatabaseCreator)Database.GetService<IDatabaseCreator>();
-            if(!databaseCreator.Exists())
+            var databaseCreator = (RelationalDatabaseCreator)Database.GetService<IDatabaseCreator>();
+            if (!databaseCreator.Exists())
             {
                 databaseCreator.Create();
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Admin.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +12,9 @@ namespace Admin.Controllers
 {
     public class ScoresController : Controller
     {
-        private readonly AdminContext _context;
+        private readonly DatabaseContext _context;
 
-        public ScoresController(AdminContext context)
+        public ScoresController(DatabaseContext context)
         {
             _context = context;
         }
