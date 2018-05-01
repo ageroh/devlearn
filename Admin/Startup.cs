@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Admin.Models;
 
-namespace Website
+namespace Admin
 {
     public class Startup
     {
@@ -23,6 +24,9 @@ namespace Website
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<AdminContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AdminContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,8 +34,8 @@ namespace Website
         {
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
             else
             {

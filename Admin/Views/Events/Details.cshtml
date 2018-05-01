@@ -1,0 +1,37 @@
+﻿@model Domain.Event
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeTeam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HomeTeam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AwayTeam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AwayTeam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

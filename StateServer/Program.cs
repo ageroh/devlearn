@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Dapper;
+using Domain;
 using Fleck;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
