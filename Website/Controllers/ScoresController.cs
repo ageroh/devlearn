@@ -8,12 +8,12 @@ using Website.Models;
 
 namespace Website.Controllers
 {
-    public class PollingController : Controller
+    public class ScoresController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int lastKnownScoreId = 0)
         {
-            return View();
+            return null;
         }
-        
+
     }
 }
