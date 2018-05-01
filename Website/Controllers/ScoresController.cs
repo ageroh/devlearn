@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Website.Controllers
 {
@@ -22,6 +23,7 @@ namespace Website.Controllers
                 .Where(s => s.Id > lastKnownScoreId)
                 .GroupBy(s => s.EventId)
                 .Select(se => se.OrderByDescending(s => s.Id).FirstOrDefault())
+                .OrderByDescending(s => s.Id)
                 .ToListAsync();
 
             return Json(scores);

@@ -1,27 +1,31 @@
-﻿$(function () {
-    
-});
+﻿var mode = $("#js-holder").data("mode");
+
+if (mode === "poll") {
+    initiatePolling();
+} else {
+    initiateWebSocketConnection();
+}
 
 
 function initiatePolling() {
     var interval = 2000;
     var lastKnownScoreId = 0;
     var poll = function() {
-        $.get("/polling?lastKnownScoreId=" + lastKnownScoreId,
-            function (result) {
-                if (result) {
+        $.get("/scores?lastKnownScoreId=" + lastKnownScoreId,
+            function(result) {
+                if (result && result.length > 0) {
                     render(result);
-
+                    console.log(result);
+                    lastKnownScoreId = result[0].id;
                 }
-                
                 setTimeout(poll, interval);
             });
     }
-
+    poll();
 }
 
 function initiateWebSocketConnection() {
-    var ws = new WebSocket("ws://localhost:8181/socket");
+    var ws = new WebSocket("ws://localhost:8181/scores");
     ws.onopen = function () {
         console.log("Connection opened");
     }
@@ -29,22 +33,18 @@ function initiateWebSocketConnection() {
         console.log("Connection closed");
     }
     ws.onmessage = function (e) {
-        render(e.data);
-    } 
+        render(JSON.parse(e.data));
+    }
 }
 
-function render(result) {
-    if (!result) {
-        return;
-    }
-    var data = JSON.parse(result);
+function render(data) {
     var template = $("#js-row-template").html();
     for (var i = 0; i < data.length; i++) {
         var score = data[i];
-        var event = score.Event.EventName;
-        var eventId = score.EventId;
-        var home = score.Home;
-        var away = score.Away;
+        var event = score.event.eventname;
+        var eventId = score.eventid;
+        var home = score.home;
+        var away = score.away;
         var eventrow = $("#js-event-" + eventId);
         if (eventrow.length === 0) {
             eventrow = $(template);

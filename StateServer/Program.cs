@@ -9,6 +9,7 @@ using System.Text;
 using Dapper;
 using Domain;
 using Fleck;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -19,7 +20,7 @@ namespace StateServer
     public class Program
     {
         private static readonly List<IWebSocketConnection> Sockets = new List<IWebSocketConnection>();
-        private static readonly WebSocketServer Server = new WebSocketServer("ws://127.0.0.1:8181/socket");
+        private static readonly WebSocketServer Server = new WebSocketServer("ws://127.0.0.1:8181/scores");
         private static ConcurrentDictionary<int, Score> _state = new ConcurrentDictionary<int, Score>();
 
         public static void Main(string[] args)
@@ -30,32 +31,14 @@ namespace StateServer
 
             var configuration = builder.Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            using (var con = new SqlConnection(connectionString))
+            using (var context = new DatabaseContext(connectionString))
             {
-                var scores = con.Query<dynamic>(@"SELECT *
-                FROM (
-                    SELECT [Score].*, [Event].HomeTeam, [Event].AwayTeam, [Event].[DateCreated] AS EDateCreated,
-                    ROW_NUMBER() OVER(PARTITION BY [Score].[EventId] ORDER BY Id DESC) AS RowNum
-                    FROM [Score]
-					INNER JOIN [Event]
-					ON Score.EventId = [Event].EventId
-                ) t
-                WHERE t.RowNum = 1", commandType: CommandType.Text).Select(d => new Score()
-                {
-                    Id = (int) d.Id,
-                    Home = (int) d.Home,
-                    Away = (int) d.Away,
-                    DateCreated = (DateTime) d.DateCreated,
-                    EventId = (int) d.EventId,
-                    Event = new Event()
-                    {
-                        EventId = (int)d.EventId,
-                        HomeTeam = (string) d.HomeTeam,
-                        AwayTeam = (string) d.AwayTeam,
-                        DateCreated = (DateTime) d.EDateCreated
-                    }
-                });
+                var scores = context.Score
+                    .Include(s => s.Event)
+                    .GroupBy(s => s.EventId)
+                    .Select(se => se.OrderByDescending(s => s.Id).FirstOrDefault())
+                    .OrderByDescending(s => s.Id)
+                    .ToList();
                 _state = new ConcurrentDictionary<int, Score>(scores.ToDictionary(s => s.EventId));
             }
 

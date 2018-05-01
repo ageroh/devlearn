@@ -3,23 +3,11 @@
 }
 
 
-<div id="js-holder">
-    
-</div>
-
-
-<script type="text/template" id="js-row-template">
-    <div class="row">
-        <fieldset>
-            <legend class="js-event"></legend>
-            <div class="col-xs-6 text-center">
-                <h3>Home</h3>
-                <h1 class="js-home"></h1>
-            </div>
-            <div class="col-xs-6 text-center">
-                <h3>Away</h3>
-                <h1 class="js-away"></h1>
-            </div>
-        </fieldset>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Event Scores</h1>
+        <h2><a asp-area="" asp-controller="Home" asp-action="Poll">Poll</a></h2>
+        <h2><a asp-area="" asp-controller="Home" asp-action="Push">Push</a></h2>
+        <hr />
     </div>
-</script>
+</div>

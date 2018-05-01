@@ -10,15 +10,20 @@ namespace Domain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonProperty("eventid")]
         public int EventId { get; set; }
 
+        [JsonProperty("hometeam")]
         public string HomeTeam { get; set; }
 
+        [JsonProperty("awayteam")]
         public string AwayTeam { get; set; }
 
+        [JsonProperty("eventname")]
         public string EventName => $"{HomeTeam} vs {AwayTeam}";
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [JsonProperty("created")]
         public DateTime DateCreated { get; set; }
 
         [JsonIgnore]
