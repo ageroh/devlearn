@@ -12,6 +12,12 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Event)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventName)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Home)
         </dt>
         <dd>
@@ -29,15 +35,8 @@
         <dd>
             @Html.DisplayFor(model => model.DateCreated)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Event)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Event.EventId)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

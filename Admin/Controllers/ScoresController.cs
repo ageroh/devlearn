@@ -48,7 +48,7 @@ namespace Admin.Controllers
         // GET: Scores/Create
         public IActionResult Create()
         {
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId");
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", score.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName", score.EventId);
             return View(score);
         }
 
@@ -83,7 +83,7 @@ namespace Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", score.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName", score.EventId);
             return View(score);
         }
 
@@ -119,7 +119,7 @@ namespace Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", score.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName", score.EventId);
             return View(score);
         }
 

@@ -15,6 +15,8 @@ namespace Domain
 
         public string AwayTeam { get; set; }
 
+        public string EventName => $"{HomeTeam} vs {AwayTeam}";
+
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DateCreated { get; set; }
 
