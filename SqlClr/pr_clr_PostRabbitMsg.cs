@@ -7,15 +7,15 @@ namespace SqlClr
     {
         public static void Pr_clr_PostRabbitMsg(string msg)
         {
-            var factory = new ConnectionFactory { HostName = "localhost", Port = 32782, UserName = "admin", Password = "admin" };
+            var factory = new ConnectionFactory { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare("hello", false, false, false, null);
+                    channel.QueueDeclare("scores", false, false, false, null);
 
                     var body = Encoding.UTF8.GetBytes(msg);
-                    channel.BasicPublish("", "hello", null, body);
+                    channel.BasicPublish("", "scores", null, body);
                 }
             }
         }

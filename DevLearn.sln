@@ -12,11 +12,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{45D0B874-AC2D-4357-8F8D-246154043291}"
 	ProjectSection(SolutionItems) = preProject
 		db.sql = db.sql
+		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin", "Admin\Admin.csproj", "{1A2D1F7F-5B24-4BC8-AD45-430C873542CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin", "Admin\Admin.csproj", "{1A2D1F7F-5B24-4BC8-AD45-430C873542CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{9FCB647C-92B6-4586-AFF8-1E1A78704A4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{9FCB647C-92B6-4586-AFF8-1E1A78704A4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

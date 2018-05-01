@@ -35,11 +35,11 @@ namespace StateServer
             {
                 var scores = con.Query<Score>(@"SELECT *
                 FROM (
-                    SELECT [Scores].*, [Event].HomeTeam, [Event].AwayTeam, 
-                    ROW_NUMBER() OVER(PARTITION BY [Scores].[EventId] ORDER BY Id DESC) AS RowNum
-                    FROM [Scores]
+                    SELECT [Score].*, [Event].HomeTeam, [Event].AwayTeam, 
+                    ROW_NUMBER() OVER(PARTITION BY [Score].[EventId] ORDER BY Id DESC) AS RowNum
+                    FROM [Score]
 					INNER JOIN [Event]
-					ON Scores.EventId = [Event].EventId
+					ON Score.EventId = [Event].EventId
                 ) t
                 WHERE t.RowNum = 1", commandType: CommandType.Text);
                 _state = new ConcurrentDictionary<int, Score>(scores.ToDictionary(s => s.EventId)); 
@@ -62,12 +62,12 @@ namespace StateServer
             });
 
 
-            var factory = new ConnectionFactory { HostName = "localhost", Port = 32782, UserName = "admin", Password = "admin" };
+            var factory = new ConnectionFactory { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare("hello", false, false, false, null);
+                    channel.QueueDeclare("scores", false, false, false, null);
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (model, ea) =>
                     {
@@ -79,7 +79,7 @@ namespace StateServer
                         var scores = JsonConvert.DeserializeObject<List<Score>>(message);
                         scores.ForEach(score => _state[score.EventId] = score);
                     };
-                    channel.BasicConsume("hello", true, consumer);
+                    channel.BasicConsume("scores", true, consumer);
                     Console.WriteLine(" Press [enter] to exit.");
                     Console.ReadLine();
                 }
