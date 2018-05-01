@@ -1,11 +1,11 @@
-﻿using Domain;
+﻿using System;
+using System.Data.SqlClient;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Data.SqlClient;
 
-namespace Admin.Models
+namespace Admin.Data
 {
     public class AdminContext : DbContext
     {

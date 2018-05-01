@@ -29,20 +29,34 @@ namespace StateServer
                 .AddJsonFile("appsettings.json");
 
             var configuration = builder.Build();
-            var connectionString =  configuration.GetConnectionString("DefaultConnection");
-            
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
             using (var con = new SqlConnection(connectionString))
             {
-                var scores = con.Query<Score>(@"SELECT *
+                var scores = con.Query<dynamic>(@"SELECT *
                 FROM (
-                    SELECT [Score].*, [Event].HomeTeam, [Event].AwayTeam, 
+                    SELECT [Score].*, [Event].HomeTeam, [Event].AwayTeam, [Event].[DateCreated] AS EDateCreated,
                     ROW_NUMBER() OVER(PARTITION BY [Score].[EventId] ORDER BY Id DESC) AS RowNum
                     FROM [Score]
 					INNER JOIN [Event]
 					ON Score.EventId = [Event].EventId
                 ) t
-                WHERE t.RowNum = 1", commandType: CommandType.Text);
-                _state = new ConcurrentDictionary<int, Score>(scores.ToDictionary(s => s.EventId)); 
+                WHERE t.RowNum = 1", commandType: CommandType.Text).Select(d => new Score()
+                {
+                    Id = (int) d.Id,
+                    Home = (int) d.Home,
+                    Away = (int) d.Away,
+                    DateCreated = (DateTime) d.DateCreated,
+                    EventId = (int) d.EventId,
+                    Event = new Event()
+                    {
+                        EventId = (int)d.EventId,
+                        HomeTeam = (string) d.HomeTeam,
+                        AwayTeam = (string) d.AwayTeam,
+                        DateCreated = (DateTime) d.EDateCreated
+                    }
+                });
+                _state = new ConcurrentDictionary<int, Score>(scores.ToDictionary(s => s.EventId));
             }
 
             Server.Start(socket =>
@@ -75,7 +89,7 @@ namespace StateServer
                         var message = Encoding.UTF8.GetString(body);
                         Console.WriteLine("Received: {0}", message);
                         Sockets.ForEach(socket => socket.Send(message));
-                        
+
                         var scores = JsonConvert.DeserializeObject<List<Score>>(message);
                         scores.ForEach(score => _state[score.EventId] = score);
                     };
