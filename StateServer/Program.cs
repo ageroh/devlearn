@@ -81,7 +81,7 @@ namespace StateServer
             {
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare("scores", false, false, false, null);
+                    channel.QueueDeclare(Constants.ScoresQueue, false, false, false, null);
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (model, ea) =>
                     {
@@ -93,7 +93,7 @@ namespace StateServer
                         var scores = JsonConvert.DeserializeObject<List<Score>>(message);
                         scores.ForEach(score => _state[score.EventId] = score);
                     };
-                    channel.BasicConsume("scores", true, consumer);
+                    channel.BasicConsume(Constants.ScoresQueue, true, consumer);
                     Console.WriteLine(" Press [enter] to exit.");
                     Console.ReadLine();
                 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Admin.Models;
 using Domain;
+using Admin.Services;
 
 namespace Admin.Controllers
 {
@@ -61,8 +62,23 @@ namespace Admin.Controllers
             {
                 @event.DateCreated = DateTime.UtcNow;
                 _context.Add(@event);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // always add a default score
+                var defaultScore = new Score()
+                {
+                    Away = 0,
+                    Home = 0,
+                    DateCreated = DateTime.UtcNow,
+                    EventId = @event.EventId
+                };
+                _context.Add(defaultScore);
+
+                var result = await _context.SaveChangesAsync();
+                if (result > 0 && await RabbitmqProvider.Publish(defaultScore, Constants.ScoresQueue))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Error", "Home");
             }
             return View(@event);
         }

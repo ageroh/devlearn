@@ -13,7 +13,12 @@ namespace Admin.Data
             : base(options)
         {
             var databaseCreator =  (RelationalDatabaseCreator)Database.GetService<IDatabaseCreator>();
-            if (!(databaseCreator.Exists() && TablesExists()))
+            if(!databaseCreator.Exists())
+            {
+                databaseCreator.Create();
+            }
+
+            if (!TablesExists())
             {
                 databaseCreator.CreateTables();
             }
