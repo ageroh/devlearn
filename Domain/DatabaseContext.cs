@@ -23,6 +23,21 @@ namespace Domain
             }
         }
 
+        private readonly string _connectionString;
+        public DatabaseContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!string.IsNullOrWhiteSpace(_connectionString))
+            {
+                optionsBuilder.UseSqlServer(_connectionString);
+            }
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Score>()
