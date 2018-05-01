@@ -3,19 +3,16 @@
 ## Instalation
 
 
-1. Create Database DevLearn by running the script
-2. Setup RabbitMQ locally, run service on default port.
-3. Build solution
-4. Run Admin site, add some events, and scores.
-5. Run State Server app
+1. Setup RabbitMQ locally, run service on default port.
+2. Build entire solution
+3. Run `Admin` with `dotnet run` to generate database `devlearn` and related tables.
+4. Dotnet Run `StateServer`
+5. Dotnet run `Website`
 
-Start services: 
+Have fun!
 
-```
-dotnet run
-```
 
-# Todo...
+### Todo...
 
 Write complete beutifull documentation for the project..
 
