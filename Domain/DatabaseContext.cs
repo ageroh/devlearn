@@ -8,22 +8,27 @@ namespace Domain
 {
     public class DatabaseContext : DbContext
     {
+        private readonly string _connectionString;
+        private static object _lock = new object();
+        private static bool _tablesExist = false;
+
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
-            var databaseCreator = (RelationalDatabaseCreator)Database.GetService<IDatabaseCreator>();
-            if (!databaseCreator.Exists())
+            lock(_lock)
             {
-                databaseCreator.Create();
-            }
-
-            if (!TablesExists())
-            {
-                databaseCreator.CreateTables();
+                var databaseCreator = (RelationalDatabaseCreator)Database.GetService<IDatabaseCreator>();
+                if (!databaseCreator.Exists())
+                {
+                    databaseCreator.Create();
+                }
+                if (!TablesExists())
+                {
+                    databaseCreator.CreateTables();
+                }
             }
         }
-
-        private readonly string _connectionString;
+       
         public DatabaseContext(string connectionString)
         {
             _connectionString = connectionString;
@@ -61,9 +66,13 @@ namespace Domain
         public DbSet<Event> Event { get; set; }
         public DbSet<Score> Score { get; set; }
 
+      
         private bool TablesExists()
         {
-
+            if(_tablesExist)
+            {
+                return true;
+            }
             var p = new SqlParameter
             {
                 ParameterName = "cnt",
@@ -79,7 +88,8 @@ namespace Domain
                 SELECT @cnt;
             ";
             var resp = Database.ExecuteSqlCommand(sql, p);
-            return p?.Value != DBNull.Value && (int)p.Value == 1;
+            _tablesExist =  p?.Value != DBNull.Value && (int)p.Value == 1;
+            return _tablesExist;
         }
     }
 }
