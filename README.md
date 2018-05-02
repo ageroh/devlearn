@@ -5,12 +5,9 @@
 
 1. Setup RabbitMQ locally, run service on default port. 
 2. Build entire solution
-3. Run `Admin` with `dotnet run` to generate database `devlearn` and related tables.
-4. Dotnet Run `StateServer`
-5. Dotnet run `Website`
+3. Select solution and click `Start` from VS2017, else you must `dotnet run` for each project.
 
 Have fun!
-
 
 ### Todo...
 
