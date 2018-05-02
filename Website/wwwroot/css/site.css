@@ -33,3 +33,16 @@
         display: none;
     }
 }
+
+
+.event-container{
+    border-top:solid 1px #e1e3e8; padding-bottom:25px;
+}
+
+.event-name{
+    padding:5px 0px;
+}
+
+.main-container{
+    padding:10px 0;border:solid 1px #e1e3e8;
+}
