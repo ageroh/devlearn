@@ -63,6 +63,7 @@ namespace Admin.Controllers
             {
                 score.DateCreated = DateTime.UtcNow;
                 _context.Add(score);
+                score.Event = _context.Event.FirstOrDefault(e=> e.EventId == score.EventId);
                 var result = await _context.SaveChangesAsync();
                 if (result > 0 && await RabbitmqProvider.Publish(score, Constants.ScoresQueue))
                 {

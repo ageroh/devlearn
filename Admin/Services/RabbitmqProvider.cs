@@ -22,7 +22,7 @@ namespace Admin.Services
                 {
                     channel.QueueDeclare(scoreQueue, false, false, false, null);
 
-                    var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(score));
+                    var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new []{score}));
                     channel.BasicPublish("", scoreQueue, null, body);
                     return Task.FromResult(true);
                 }
