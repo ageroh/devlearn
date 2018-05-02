@@ -68,7 +68,8 @@ namespace Admin.Controllers
                     Away = 0,
                     Home = 0,
                     DateCreated = DateTime.UtcNow,
-                    EventId = @event.EventId
+                    EventId = @event.EventId,
+                    Event = @event
                 };
                 _context.Add(defaultScore);
 
